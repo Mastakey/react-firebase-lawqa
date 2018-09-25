@@ -1,47 +1,57 @@
 import React, { Component } from 'react';
+import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
 
 class RegisterForm extends Component {
-    state = {
-        email: '',
-        password: '',
-        firstName: '',
-        lastName: ''
+    renderField(field) {
+        const { touched, error } = field.meta;
+        const className = "input-field";
+        return (
+            <div className={className}>
+                <label htmlFor={field.name}>{field.label}</label>
+                <input type={field.type} id={field.name} 
+                {...field.input}
+                />
+            </div>
+        );
     }
 
-    handleChange(event) {
-        this.setState({
-            [event.target.id]: event.target.value
-        });
-    }
-
-    handleSubmit(event) {
-        event.preventDefault();
-        console.log(this.state);
+    onSubmit(values) {
+        console.log("submit values", values);
     }
 
     render() {
+        const handleSubmit = this.props.handleSubmit;
         return (
             <div className="container">
-                <form onSubmit={this.handleSubmit.bind(this)} className="white">
+                <form onSubmit={handleSubmit(this.onSubmit.bind(this))} className="white">
                     <h5 className="grey-text text-darken-3">Register</h5>
+                    <Field 
+                        name="email"
+                        type="email"
+                        label="Email"
+                        component={this.renderField}
+                    />
+                    <Field
+                        name="password"
+                        type="password"
+                        label="Password"
+                        component={this.renderField}
+                    />
+                    <Field
+                        name="firstName"
+                        type="text"
+                        label="First Name"
+                        component={this.renderField}
+                    />
+                    <Field
+                        name="lastName"
+                        type="text"
+                        label="Last Name"
+                        component={this.renderField}
+                    />
                     <div className="input-field">
-                        <label htmlFor="email">Email</label>
-                        <input type="email" id="email" onChange={this.handleChange.bind(this)} />
-                    </div>
-                    <div className="input-field">
-                        <label htmlFor="password">Password</label>
-                        <input type="password" id="password" onChange={this.handleChange.bind(this)} />
-                    </div>
-                    <div className="input-field">
-                        <label htmlFor="firstName">First Name</label>
-                        <input type="text" id="firstName" onChange={this.handleChange.bind(this)} />
-                    </div>
-                    <div className="input-field">
-                        <label htmlFor="lastName">Last Name</label>
-                        <input type="text" id="lastName" onChange={this.handleChange.bind(this)} />
-                    </div>
-                    <div className="input-field">
-                        <button className="btn pink lighten-1 z-depth-0">Submit</button>
+                        <button type="submit" className="btn pink lighten-1 z-depth-0">Submit</button>
                     </div>
                 </form>
             </div>
@@ -49,4 +59,28 @@ class RegisterForm extends Component {
     }
 }
 
-export default RegisterForm;
+function validate(values) {
+    //console.log(values) -> {title: '', categories: '', content: ''}
+    const errors = {};
+    // Validate the inputs from 'values'
+    if (!values.title) {
+        errors.title = "Enter a title!";
+    }
+    if (!values.categories) {
+        errors.categories = "Enter a category!";
+    }
+    if (!values.content) {
+        errors.content = "Enter content!";
+    }
+
+    // If errors is empty, the form is fine to submit
+    // If errors has any properties, redux form assumes form is invalid
+    return errors;
+}
+
+export default reduxForm({
+    validate: validate,
+    form: 'RegisterForm' //this has to be unique
+})(
+    connect(null, {  })(RegisterForm)
+);
