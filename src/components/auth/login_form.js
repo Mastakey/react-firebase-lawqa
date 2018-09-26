@@ -22,7 +22,7 @@ class LoginForm extends Component {
     render() {
         const handleSubmit = this.props.handleSubmit;
         return (
-            <div className="container">
+            <div className="login-container">
                 <form onSubmit={handleSubmit(this.onSubmit.bind(this))} className="white">
                     <h5 className="grey-text text-darken-3">Login</h5>
                     <Field

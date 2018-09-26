@@ -19,13 +19,15 @@ class App extends Component {
     return (
       <Provider store={createStoreWithMiddleware(reducers)}>
       <BrowserRouter>
-        <div>
+        <div className="app-container">
           <Header />
+          <div className="content-container">
           <Switch>
             <Route exact path='/' component={Home} />
             <Route path='/register' component={RegisterForm} />
             <Route path='/login' component={LoginForm} />
           </Switch>
+          </div>
         </div>
       </BrowserRouter>
       </Provider>

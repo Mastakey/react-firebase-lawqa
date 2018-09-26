@@ -7,5 +7,24 @@ body {
 form {
   padding-top: 10px;
   margin-top: 20px;
-  width: 50%;
+  width: 100%;
+}
+
+.content-container {
+  display: flex;
+  justify-content: center;
+}
+
+.content-left-container {
+  display: flex;
+}
+
+.content-right-container {
+  display: flex;
+}
+
+.content-main-login-container {
+  display: flex;
+  justify-content: flex-start;
+  width: 75%;
 }
