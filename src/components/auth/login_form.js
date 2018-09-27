@@ -1,32 +1,42 @@
 import React, { Component } from 'react';
+import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
 
 class LoginForm extends Component {
-    state = {
-        email: '',
-        password: ''
+    renderField(field) {
+        const { touched, error } = field.meta;
+        const className = "input-field";
+        return (
+            <div className={className}>
+                <label htmlFor={field.name}>{field.label}</label>
+                <input type={field.type} id={field.name}
+                    {...field.input}
+                />
+            </div>
+        );
     }
-    handleChange(event) {
-        this.setState({
-            [event.target.id]: event.target.value
-        });
-    }
-    handleSubmit(event) {
-        event.preventDefault();
-        console.log(this.state);
+
+    onSubmit(values) {
+        console.log("submit values", values);
     }
     render() {
+        const handleSubmit = this.props.handleSubmit;
         return (
-            <div className="container">
-                <form onSubmit={this.handleSubmit.bind(this)} className="white">
+            <div className="container content-login">
+                <form onSubmit={handleSubmit(this.onSubmit.bind(this))} className="white">
                     <h5 className="grey-text text-darken-3">Login</h5>
-                    <div className="input-field">
-                        <label htmlFor="email">Email</label>
-                        <input type="email" id="email" onChange={this.handleChange.bind(this)} />
-                    </div>
-                    <div className="input-field">
-                        <label htmlFor="password">Password</label>
-                        <input type="password" id="password" onChange={this.handleChange.bind(this)} />
-                    </div>
+                    <Field
+                        name="email"
+                        type="email"
+                        label="Email"
+                        component={this.renderField}
+                    />
+                    <Field
+                        name="password"
+                        type="password"
+                        label="Password"
+                        component={this.renderField}
+                    />
                     <div className="input-field">
                         <button className="btn pink lighten-1 z-depth-0">Login</button>
                     </div>
@@ -36,4 +46,14 @@ class LoginForm extends Component {
     }
 }
 
-export default LoginForm;
+function validate(values) {
+    const errors = {};
+    return errors;
+}
+
+export default reduxForm({
+    validate: validate,
+    form: 'LoginForm' //this has to be unique
+})(
+    connect(null, {})(LoginForm)
+);
