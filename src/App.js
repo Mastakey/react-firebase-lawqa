@@ -11,6 +11,7 @@ import Header from './components/header/header';
 import Home from './components/content/home';
 import RegisterForm from './components/auth/register_form';
 import LoginForm from './components/auth/login_form';
+import Questions from './components/content/questions/questions';
 
 const createStoreWithMiddleware = composeWithDevTools(applyMiddleware(promise))(createStore);
 
@@ -26,6 +27,7 @@ class App extends Component {
             <Route exact path='/' component={Home} />
             <Route path='/register' component={RegisterForm} />
             <Route path='/login' component={LoginForm} />
+            <Route path='/questions' component={Questions} />
           </Switch>
           </div>
         </div>
