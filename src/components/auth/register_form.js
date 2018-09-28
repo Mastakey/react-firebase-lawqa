@@ -44,10 +44,6 @@ class RegisterForm extends Component {
             console.log("done");
         })
         .catch(function (error) {
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // ...
             that.handleErrors(error);
         });
     }

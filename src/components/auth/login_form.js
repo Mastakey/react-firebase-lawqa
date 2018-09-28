@@ -3,6 +3,21 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 
 class LoginForm extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            error: {}
+        }
+    }
+    handleErrors(error) {
+        console.log("handle error", error);
+        //this.setState({
+        //    errors: [...this.state.errors, error]
+        //});
+        this.setState({
+            error: error
+        })
+    }
     renderField(field) {
         const { touched, error } = field.meta;
         const className = "input-field";
@@ -17,7 +32,18 @@ class LoginForm extends Component {
     }
 
     onSubmit(values) {
+        console.log(this.props);
+        const firebase = this.props.firebase;
+        let that = this;
         console.log("submit values", values);
+        firebase.auth().signInWithEmailAndPassword(values.email, values.password)
+        .then((user) => {
+            console.log("user", user);
+            console.log("done");
+            this.props.history.push('/');
+        }).catch(function(error) {
+            that.handleErrors(error);
+        });
     }
     render() {
         const handleSubmit = this.props.handleSubmit;
@@ -51,9 +77,15 @@ function validate(values) {
     return errors;
 }
 
+const mapStateToProps = (state) => {
+    return {
+        firebase: state.firebase
+    };
+}
+
 export default reduxForm({
     validate: validate,
     form: 'LoginForm' //this has to be unique
 })(
-    connect(null, {})(LoginForm)
+    connect(mapStateToProps, {  })(LoginForm)
 );
