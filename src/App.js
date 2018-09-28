@@ -5,7 +5,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import promise from 'redux-promise';
 
-import reducers from './reducers';
+import reducers from './store/reducers';
 
 import Header from './components/header/header';
 import Home from './components/content/home';
