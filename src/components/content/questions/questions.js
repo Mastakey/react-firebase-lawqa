@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import QuestionSummary from './question_summary';
 
 class Questions extends Component{
@@ -14,7 +15,9 @@ class Questions extends Component{
                         return <QuestionSummary question={question} key={question.id} />
                     })
                 }
+                <Link to='/questions/add' >Add Question</Link>
             </div>
+            
         );
     }
 }
