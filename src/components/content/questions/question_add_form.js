@@ -27,7 +27,7 @@ class QuestionAddForm extends Component {
             />
         );
         let jsxFieldTextArea = (
-            <textarea id={field.name} class="materialize-textarea"
+            <textarea id={field.name} className="materialize-textarea"
                 {...field.input}
             ></textarea>
         );
@@ -46,7 +46,25 @@ class QuestionAddForm extends Component {
     }
 
     onSubmit(values) {
-        console.log(this.props);
+        const firestore = this.props.firebase.firestore();
+        firestore.settings({
+            timestampsInSnapshots: true
+        });
+        console.log(firestore);
+        firestore.collection("test_questions").add({
+            title: "Ada",
+            content: "Lovelace"
+        })
+        .then(function(docRef) {
+            console.log("Document written with ID: ", docRef.id);
+        })
+        .catch(function(error) {
+            console.error("Error adding document: ", error);
+        });
+        //const docRef = firestore.doc("test_questions");
+        
+        //console.log(this.props);
+        //console.log(docRef);
     }
     render() {
         const handleSubmit = this.props.handleSubmit;
