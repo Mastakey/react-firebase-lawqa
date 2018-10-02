@@ -3,23 +3,8 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 
 class LoginForm extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            error: {}
-        }
-    }
-    handleErrors(error) {
-        console.log("handle error", error);
-        //this.setState({
-        //    errors: [...this.state.errors, error]
-        //});
-        this.setState({
-            error: error
-        })
-    }
     renderField(field) {
-        const { touched, error } = field.meta;
+        //const { touched, error } = field.meta;
         const className = "input-field";
         return (
             <div className={className}>
@@ -33,20 +18,27 @@ class LoginForm extends Component {
 
     onSubmit(values) {
         console.log(this.props);
-        const firebase = this.props.firebase;
-        let that = this;
         console.log("submit values", values);
-        firebase.auth().signInWithEmailAndPassword(values.email, values.password)
+        this.props.login(values.email, values.password);
+        /*firebase.auth().signInWithEmailAndPassword()
         .then((user) => {
             console.log("user", user);
             console.log("done");
             this.props.history.push('/');
         }).catch(function(error) {
             that.handleErrors(error);
-        });
+        });*/
     }
+
+    componentDidUpdate(){
+        if (this.props.isAuthenticated && this.props.redirect) {
+            this.props.history.push('/');
+        }
+    }
+
     render() {
         const handleSubmit = this.props.handleSubmit;
+        console.log(this.props);
         return (
             <div className="container content-login">
                 <form onSubmit={handleSubmit(this.onSubmit.bind(this))} className="white">
@@ -66,6 +58,7 @@ class LoginForm extends Component {
                     <div className="input-field">
                         <button className="btn pink lighten-1 z-depth-0">Login</button>
                     </div>
+                    <div className="errors">{this.props.error ? this.props.error.message : ''}</div>
                 </form>
             </div>
         );
@@ -79,13 +72,21 @@ function validate(values) {
 
 const mapStateToProps = (state) => {
     return {
-        firebase: state.firebase
+        error: state.auth.error,
+        isAuthenticated: state.auth.isAuthenticated,
+        redirect: state.auth.redirect
     };
 }
+
+const mapDispatchToProps = dispatch => {
+    return {
+        login: (email, password) => dispatch({ type: "LOGIN", email, password })
+    };
+};
 
 export default reduxForm({
     validate: validate,
     form: 'LoginForm' //this has to be unique
 })(
-    connect(mapStateToProps, {  })(LoginForm)
+    connect(mapStateToProps, mapDispatchToProps)(LoginForm)
 );

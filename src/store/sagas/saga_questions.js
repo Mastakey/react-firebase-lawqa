@@ -1,23 +1,11 @@
-import { takeEvery, put, call, take } from 'redux-saga/effects';
-import firebase from '../../config/firebase';
+import { takeEvery, put, call } from 'redux-saga/effects';
+import { getQuestionsAPI, addQuestionAPI } from '../api/firestore';
 
-function* getQuestionsAPI(){
-    console.log("saga get questions");
-    try {
-        const db = firebase.firestore();
-        db.settings({
-            timestampsInSnapshots: true
-        });
-        return db.collection("test_questions").get();
-    } catch (e) {
-        console.log(e);
-    }
-}
-
-function* getQuestionsWorker(){
+function* getQuestionsSaga(){
     try {
         const dbResults = yield call(getQuestionsAPI);
-        yield put({type:'GET_QUESTIONS_SUCCESS', payload: dbResults});
+        console.log("API results", dbResults);
+        yield put({ type: 'GET_QUESTIONS_SUCCESS', payload: dbResults });
     } catch (e) {
         console.log(e);
         yield put({type:'GET_QUESTIONS_FAIL', e});
@@ -26,13 +14,17 @@ function* getQuestionsWorker(){
 
 function* addQuestion(action){
     try {
-        console.log(action);
+        console.log('add', action);
+        yield call(addQuestionAPI, action.title, action.content);
+        console.log('done');
+        yield put({ type: 'ADD_QUESTION_SUCCESS'});
     } catch (e) {
         console.log(e);
+        yield put({ type: 'ADD_QUESTION_FAIL', e });
     }
 }
 
 export default function* questionSaga() {
-    yield takeEvery('GET_QUESTIONS', getQuestionsWorker);
+    yield takeEvery('GET_QUESTIONS', getQuestionsSaga);
     yield takeEvery('ADD_QUESTION', addQuestion);
 }

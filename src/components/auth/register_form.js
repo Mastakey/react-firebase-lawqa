@@ -10,7 +10,7 @@ class RegisterForm extends Component {
         }
     }
     renderField(field) {
-        const { touched, error } = field.meta;
+        //const { touched, error } = field.meta;
         const className = "input-field";
         return (
             <div className={className}>

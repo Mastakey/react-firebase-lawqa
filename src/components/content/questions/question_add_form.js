@@ -46,25 +46,8 @@ class QuestionAddForm extends Component {
     }
 
     onSubmit(values) {
-        const firestore = this.props.firebase.firestore();
-        firestore.settings({
-            timestampsInSnapshots: true
-        });
-        console.log(firestore);
-        firestore.collection("test_questions").add({
-            title: "Ada",
-            content: "Lovelace"
-        })
-        .then(function(docRef) {
-            console.log("Document written with ID: ", docRef.id);
-        })
-        .catch(function(error) {
-            console.error("Error adding document: ", error);
-        });
-        //const docRef = firestore.doc("test_questions");
-        
-        //console.log(this.props);
-        //console.log(docRef);
+        console.log(values);
+        this.props.addQuestion(values.title, values.content);
     }
     render() {
         const handleSubmit = this.props.handleSubmit;
@@ -104,9 +87,19 @@ const mapStateToProps = (state) => {
     };
 }
 
+const mapDispatchToProps = dispatch => {
+    return {
+        addQuestion: (title, content) => dispatch({ 
+            type: "ADD_QUESTION", 
+            title: title, 
+            content: content 
+        })
+    };
+};
+
 export default reduxForm({
     validate: validate,
     form: 'QuestionAddForm' //this has to be unique
 })(
-    connect(mapStateToProps, {})(QuestionAddForm)
+    connect(mapStateToProps, mapDispatchToProps)(QuestionAddForm)
 );
