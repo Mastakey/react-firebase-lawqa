@@ -70,6 +70,7 @@ class QuestionAddForm extends Component {
                     <div className="input-field">
                         <button className="btn pink lighten-1 z-depth-0">Post</button>
                     </div>
+                    <div className="errors">{this.state.error ? this.state.error.message: ''}</div>
                 </form>
             </div>
         );
@@ -77,7 +78,14 @@ class QuestionAddForm extends Component {
 }
 
 function validate(values) {
-    const errors = {};
+    let errors = {};
+    // Validate the inputs from 'values'
+    if (!values.title) {
+        errors.title = "Enter a title!";
+    }
+    if (!values.content) {
+        errors.content = "Enter content!";
+    }
     return errors;
 }
 

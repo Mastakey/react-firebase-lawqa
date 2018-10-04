@@ -3,9 +3,11 @@ import { Link } from 'react-router-dom';
 
 const Home = () => {
     return (
-        <div className="dashboard container">
-            <h3>Main Content</h3>
-            <Link to="/questions">Questions</Link>
+        <div className="fullcontainer">
+            <div className="home-jumbo">HOme</div>
+            <div className="dashboard container">
+                <Link to="/questions">Questions</Link>
+            </div>
         </div>
     );
 }

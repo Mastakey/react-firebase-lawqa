@@ -1,7 +1,8 @@
 import { takeEvery, put, call } from 'redux-saga/effects';
-import { loginAPI } from '../api/firestore';
+import { loginAPI, registerAPI } from '../api/api_firestore';
+import register_form from '../../components/auth/register_form';
 
-function* login(action, email, password) {
+function* login(action) {
     try {
         console.log('login', action);
         yield call(loginAPI, action.email, action.password);
@@ -13,6 +14,19 @@ function* login(action, email, password) {
     }
 }
 
+function* register(action){
+    try {
+        console.log('register', action);
+        yield call(registerAPI, action.email, action.password);
+        console.log('done');
+        yield put({ type: 'REGISTER_SUCCESS' });
+    } catch (e) {
+        console.log(e);
+        yield put({ type: 'REGISTER_FAIL', error: e });
+    }
+}
+
 export default function* loginSaga() {
     yield takeEvery('LOGIN', login);
+    yield takeEvery('REGISTER', register);
 }

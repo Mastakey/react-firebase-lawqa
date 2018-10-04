@@ -17,8 +17,8 @@ class HeaderLinks extends Component {
 const LoginLinks = () => {
     return (
         <ul className="right">
-            <li><NavLink to='/login'>Login</NavLink></li>
-            <li><NavLink to='/register'>Register</NavLink></li>
+            <li className="header-link"><NavLink to='/login'>Login</NavLink></li>
+            <li className="header-link"><NavLink to='/register'>Register</NavLink></li>
         </ul>
     );
 }

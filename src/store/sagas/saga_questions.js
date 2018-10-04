@@ -1,5 +1,5 @@
 import { takeEvery, put, call } from 'redux-saga/effects';
-import { getQuestionsAPI, addQuestionAPI } from '../api/firestore';
+import { getQuestionsAPI, addQuestionAPI } from '../api/api_firestore';
 
 function* getQuestionsSaga(){
     try {

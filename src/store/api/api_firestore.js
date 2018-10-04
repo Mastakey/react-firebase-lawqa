@@ -1,8 +1,12 @@
-import firebase, { firestore } from '../../config/firebase';
+import firebase, { firestore } from '../../config/config_firebase';
 
 export function loginAPI(email, password){
     console.log('firebase: login: ' + email);;
     return firebase.auth().signInWithEmailAndPassword(email, password);
+}
+
+export function registerAPI(email, password){
+    return firebase.auth().createUserWithEmailAndPassword(email, password);
 }
 
 export function getQuestionsAPI() {
@@ -20,12 +24,12 @@ export function addQuestionAPI(title, content) {
             title: title,
             content: content
         })
-            .then(function (docRef) {
-                console.log("Document written with ID: ", docRef.id);
-            })
-            .catch(function (error) {
-                console.error("Error adding document: ", error);
-            });
+        .then(function (docRef) {
+            console.log("Document written with ID: ", docRef.id);
+        })
+        .catch(function (error) {
+            console.error("Error adding document: ", error);
+        });
     } catch (e) {
         console.log(e);
     }

@@ -1,4 +1,4 @@
-import firebase from '../../config/firebase';
+import firebase from '../../config/config_firebase';
 
 var initState = firebase;
 
