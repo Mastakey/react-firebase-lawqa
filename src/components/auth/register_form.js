@@ -1,18 +1,24 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
+import { Button, Form, FormGroup, Label, Input, Col, Row } from 'reactstrap';
 
 class RegisterForm extends Component {
     renderField(field) {
         //const { touched, error } = field.meta;
-        const className = "input-field";
+        const className = "form-input";
         return (
-            <div className={className}>
-                <label htmlFor={field.name}>{field.label}</label>
-                <input type={field.type} id={field.name} 
+            <FormGroup className={className}>
+                <Label for={field.name}>{field.label}</Label>
+                <Input type={field.type} id={field.name} 
                 {...field.input}
                 />
-            </div>
+                {field.meta.error && field.meta.touched &&
+                    <span className="form-error-text">
+                        {field.meta.error}
+                    </span>
+                }
+            </FormGroup>
         );
     }
 
@@ -25,59 +31,65 @@ class RegisterForm extends Component {
     render() {
         const handleSubmit = this.props.handleSubmit;
         return (
-            <div className="container content-register">
-                <form onSubmit={handleSubmit(this.onSubmit.bind(this))} className="white">
-                    <h5 className="grey-text text-darken-3">Register</h5>
-                    <Field 
-                        name="email"
-                        type="email"
-                        label="Email"
-                        component={this.renderField}
-                    />
-                    <Field
-                        name="password"
-                        type="password"
-                        label="Password"
-                        component={this.renderField}
-                    />
-                    <Field
-                        name="firstName"
-                        type="text"
-                        label="First Name"
-                        component={this.renderField}
-                    />
-                    <Field
-                        name="lastName"
-                        type="text"
-                        label="Last Name"
-                        component={this.renderField}
-                    />
-                    <div className="input-field">
-                        <button type="submit" className="btn pink lighten-1 z-depth-0">Submit</button>
+            <div className="main-container">
+                <div className="main-content-container">
+                    <div className="main-content">
+                        <div className="form-container">
+                            <Form onSubmit={handleSubmit(this.onSubmit.bind(this))} className="register">
+                                <h5 className="form-header">Register</h5>
+                                <Row><Col md={12}>
+                                <Field 
+                                    name="email"
+                                    type="email"
+                                    label="Email"
+                                    component={this.renderField}
+                                />
+                                </Col></Row>
+                                <Row><Col md={12}>
+                                <Field
+                                    name="password"
+                                    type="password"
+                                    label="Password"
+                                    component={this.renderField}
+                                />
+                                </Col></Row>
+                                <Row><Col md={6}>
+                                <Field
+                                    name="firstName"
+                                    type="text"
+                                    label="First Name"
+                                    component={this.renderField}
+                                />
+                                </Col>
+                                <Col md={6}>
+                                <Field
+                                    name="lastName"
+                                    type="text"
+                                    label="Last Name"
+                                    component={this.renderField}
+                                />
+                                </Col></Row>
+                                <div className="input-field">
+                                    <Button>Submit</Button>
+                                </div>
+                                <div className="errors">{this.props.error ? this.props.error.message : ''}</div>
+                            </Form>
+                        </div>
                     </div>
-                    <div className="errors">{this.props.error ? this.props.error.message : ''}</div>
-                </form>
+                </div>
             </div>
         );
     }
 }
 
 function validate(values) {
-    //console.log(values) -> {title: '', categories: '', content: ''}
-    const errors = {};
-    // Validate the inputs from 'values'
-    if (!values.title) {
-        errors.title = "Enter a title!";
+    let errors = {};
+    if (!values.email) {
+        errors.email = "Email is empty";
     }
-    if (!values.categories) {
-        errors.categories = "Enter a category!";
+    if (!values.password) {
+        errors.password = "Password is empty";
     }
-    if (!values.content) {
-        errors.content = "Enter content!";
-    }
-
-    // If errors is empty, the form is fine to submit
-    // If errors has any properties, redux form assumes form is invalid
     return errors;
 }
 

@@ -1,18 +1,24 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
+import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 
 class LoginForm extends Component {
     renderField(field) {
         //const { touched, error } = field.meta;
-        const className = "input-field";
+        const className = "form-input";
         return (
-            <div className={className}>
-                <label htmlFor={field.name}>{field.label}</label>
-                <input type={field.type} id={field.name}
+            <FormGroup>
+                <Label for={field.name}>{field.label}</Label>
+                <Input className={className} type={field.type} id={field.name}
                     {...field.input}
                 />
-            </div>
+                {field.meta.error && field.meta.touched &&
+                    <span className="form-error-text">
+                        {field.meta.error}
+                    </span>
+                }
+            </FormGroup>
         );
     }
 
@@ -20,14 +26,6 @@ class LoginForm extends Component {
         console.log(this.props);
         console.log("submit values", values);
         this.props.login(values.email, values.password);
-        /*firebase.auth().signInWithEmailAndPassword()
-        .then((user) => {
-            console.log("user", user);
-            console.log("done");
-            this.props.history.push('/');
-        }).catch(function(error) {
-            that.handleErrors(error);
-        });*/
     }
 
     componentDidUpdate(){
@@ -38,41 +36,53 @@ class LoginForm extends Component {
 
     render() {
         const handleSubmit = this.props.handleSubmit;
-        console.log(this.props);
+        console.log("prop", this.props);
+
         return (
-            <div className="container content-login">
-                <form onSubmit={handleSubmit(this.onSubmit.bind(this))} className="white">
-                    <h5 className="grey-text text-darken-3">Login</h5>
-                    <Field
-                        name="email"
-                        type="email"
-                        label="Email"
-                        component={this.renderField}
-                    />
-                    <Field
-                        name="password"
-                        type="password"
-                        label="Password"
-                        component={this.renderField}
-                    />
-                    <div className="input-field">
-                        <button className="btn pink lighten-1 z-depth-0">Login</button>
+            <div className="main-container">
+                <div className="main-content-container">
+                    <div className="main-content">
+                        <div className="form-container">
+                            <Form onSubmit={handleSubmit(this.onSubmit.bind(this))} className="login">
+                                <h5 className="form-header">Login</h5>
+                                <Field
+                                    name="email"
+                                    type="email"
+                                    label="Email"
+                                    component={this.renderField}
+                                />
+                                <Field
+                                    name="password"
+                                    type="password"
+                                    label="Password"
+                                    component={this.renderField}
+                                />
+                                <Button>Submit</Button>
+                                
+                                <div className="errors">{this.props.authError ? this.props.authError.message : ''}</div>
+                            </Form>
+                        </div>
                     </div>
-                    <div className="errors">{this.props.error ? this.props.error.message : ''}</div>
-                </form>
+                </div>
             </div>
         );
     }
 }
 
 function validate(values) {
-    const errors = {};
+    let errors = {};
+    if (!values.email) {
+        errors.email = "Email is empty";
+    }
+    if (!values.password) {
+        errors.password = "Password is empty";
+    }
     return errors;
 }
 
 const mapStateToProps = (state) => {
     return {
-        error: state.auth.error,
+        authError: state.auth.error,
         isAuthenticated: state.auth.isAuthenticated,
         redirect: state.auth.redirect
     };

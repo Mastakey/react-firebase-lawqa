@@ -1,4 +1,7 @@
-const initialState = [];
+const initialState = {
+    questions: [],
+    addStatus: false
+};
 export default function(state = initialState, action){
     switch (action.type){
         case 'GET_QUESTIONS':
@@ -12,10 +15,19 @@ export default function(state = initialState, action){
             data.forEach((row) => {
                 questions.push({...row.data(), id: row.id});
             });
-            return questions;
+            return {
+                ...state,
+                questions: questions
+            };
         case 'ADD_QUESTION':
             console.log(action);
             return state;
+        case 'ADD_QUESTION_SUCCESS':
+            console.log(action);
+            return {
+                ...state,
+                addStatus: true
+            };
         default:
             return state;
     }

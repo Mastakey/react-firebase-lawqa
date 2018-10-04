@@ -15,6 +15,10 @@ import LoginForm from './components/auth/login_form';
 import Questions from './components/content/questions/questions';
 import QuestionAddForm from './components/content/questions/question_add_form';
 
+//Example Forms
+import ReduxForm from './components/examples/redux_form';
+import ReduxFormAbs from './components/examples/redux_form_abstract_render';
+
 const sagaMiddleware = createSagaMiddleWare();
 const createStoreWithMiddleware = composeWithDevTools(applyMiddleware(sagaMiddleware))(createStore);
 const store = createStoreWithMiddleware(reducers);
@@ -30,6 +34,8 @@ class App extends Component {
           <div className="content-container">
           <Switch>
                 <Route exact path='/' component={Home} />
+                <Route exact path='/reduxform' component={ReduxForm} />
+                <Route exact path='/reduxformabs' component={ReduxFormAbs} />
                 <Route exact path='/register' component={RegisterForm} />
                 <Route exact path='/login' component={LoginForm} />
                 <Route exact path='/questions' component={Questions} />

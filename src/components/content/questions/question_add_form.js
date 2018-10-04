@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
+import { Button, Form, FormGroup, Label, Input, Col, Row } from 'reactstrap';
 
 class QuestionAddForm extends Component {
     constructor(props) {
@@ -19,13 +20,14 @@ class QuestionAddForm extends Component {
         })
     }
     renderField(field) {
-        const className = "input-field";
+        const className = "form-input";
         let jsxField = null;
         let jsxFieldInput = (
-            <input type={field.type} id={field.name}
+            <Input type={field.type} id={field.name}
                 {...field.input}
             />
         );
+        /*
         let jsxFieldTextArea = (
             <textarea id={field.name} className="materialize-textarea"
                 {...field.input}
@@ -37,12 +39,25 @@ class QuestionAddForm extends Component {
         else {
             jsxField = jsxFieldInput;
         }
+        */
         return (
-            <div className={className}>
-                <label htmlFor={field.name}>{field.label}</label>
-                {jsxField}
-            </div>
+            <FormGroup className={className}>
+                <Label htmlFor={field.name}>{field.label}</Label>
+                {jsxFieldInput}
+                {field.meta.error && field.meta.touched &&
+                    <span className="form-error-text">
+                        {field.meta.error}
+                    </span>
+                }
+            </FormGroup>
         );
+    }
+
+    componentDidUpdate() {
+        console.log("comp update", this.props);
+        if (this.props.addStatus) {
+            this.props.history.push('/questions');
+        }
     }
 
     onSubmit(values) {
@@ -52,26 +67,34 @@ class QuestionAddForm extends Component {
     render() {
         const handleSubmit = this.props.handleSubmit;
         return (
-            <div className="container content-question-add-form">
-                <form onSubmit={handleSubmit(this.onSubmit.bind(this))} className="white">
-                    <h5 className="grey-text text-darken-3">Add Question</h5>
-                    <Field
-                        name="title"
-                        type="text"
-                        label="Title"
-                        component={this.renderField}
-                    />
-                    <Field
-                        name="content"
-                        type="textarea"
-                        label="Details"
-                        component={this.renderField}
-                    />
-                    <div className="input-field">
-                        <button className="btn pink lighten-1 z-depth-0">Post</button>
+            <div className="main-container">
+            <div className="main-content-container">
+                <div className="main-content">
+                    <div className="form-container">
+                        <Form onSubmit={handleSubmit(this.onSubmit.bind(this))} className="addquestion">
+                            <h5 className="grey-text text-darken-3">Add Question</h5>
+                            <Row><Col md={12}>
+                            <Field
+                                name="title"
+                                type="text"
+                                label="Title"
+                                component={this.renderField}
+                            />
+                            </Col></Row>
+                            <Row><Col md={12}>
+                            <Field
+                                name="content"
+                                type="textarea"
+                                label="Details"
+                                component={this.renderField}
+                            />
+                            </Col></Row>
+                            <Button className="btn pink lighten-1 z-depth-0">Post</Button>
+                            <div className="errors">{this.state.error ? this.state.error.message : ''}</div>
+                        </Form>
                     </div>
-                    <div className="errors">{this.state.error ? this.state.error.message: ''}</div>
-                </form>
+                </div>
+            </div>
             </div>
         );
     }
@@ -91,7 +114,8 @@ function validate(values) {
 
 const mapStateToProps = (state) => {
     return {
-        firebase: state.firebase
+        firebase: state.firebase,
+        addStatus: state.questions.addStatus
     };
 }
 

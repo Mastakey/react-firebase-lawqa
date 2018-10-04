@@ -1,6 +1,5 @@
 import { takeEvery, put, call } from 'redux-saga/effects';
 import { loginAPI, registerAPI } from '../api/api_firestore';
-import register_form from '../../components/auth/register_form';
 
 function* login(action) {
     try {
