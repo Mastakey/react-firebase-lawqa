@@ -21,25 +21,11 @@ class QuestionAddForm extends Component {
     }
     renderField(field) {
         const className = "form-input";
-        let jsxField = null;
         let jsxFieldInput = (
             <Input type={field.type} id={field.name}
                 {...field.input}
             />
         );
-        /*
-        let jsxFieldTextArea = (
-            <textarea id={field.name} className="materialize-textarea"
-                {...field.input}
-            ></textarea>
-        );
-        if (field.type === 'textarea'){
-            jsxField = jsxFieldTextArea;
-        }
-        else {
-            jsxField = jsxFieldInput;
-        }
-        */
         return (
             <FormGroup className={className}>
                 <Label htmlFor={field.name}>{field.label}</Label>

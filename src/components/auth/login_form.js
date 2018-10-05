@@ -1,24 +1,22 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 
 class LoginForm extends Component {
     renderField(field) {
         //const { touched, error } = field.meta;
-        const className = "form-input";
         return (
-            <FormGroup>
-                <Label for={field.name}>{field.label}</Label>
-                <Input className={className} type={field.type} id={field.name}
+            <div className="md-form">
+                <input className="form-control mb-3" type={field.type} id={field.label}
                     {...field.input}
                 />
+                <label htmlFor={field.label}>{field.label}</label>
                 {field.meta.error && field.meta.touched &&
                     <span className="form-error-text">
                         {field.meta.error}
                     </span>
                 }
-            </FormGroup>
+            </div>
         );
     }
 
@@ -43,24 +41,32 @@ class LoginForm extends Component {
                 <div className="main-content-container">
                     <div className="main-content">
                         <div className="form-container">
-                            <Form onSubmit={handleSubmit(this.onSubmit.bind(this))} className="login">
-                                <h5 className="form-header">Login</h5>
-                                <Field
-                                    name="email"
-                                    type="email"
-                                    label="Email"
-                                    component={this.renderField}
-                                />
-                                <Field
-                                    name="password"
-                                    type="password"
-                                    label="Password"
-                                    component={this.renderField}
-                                />
-                                <Button>Submit</Button>
-                                
-                                <div className="errors">{this.props.authError ? this.props.authError.message : ''}</div>
-                            </Form>
+                        <div className="container">
+                            <div className="row flex-center">
+                            <div className="cols-md-6">
+                                <form onSubmit={handleSubmit(this.onSubmit.bind(this))}  className="border border-light p-5">
+                                    <p className="h5 mb-4 text-center">Login</p>
+                                    <Field
+                                        name="email"
+                                        type="email"
+                                        label="Email"
+                                        icon="envelope"
+                                        component={this.renderField}
+                                    />
+                                    <Field
+                                        name="password"
+                                        type="password"
+                                        label="Password"
+                                        icon="lock"
+                                        component={this.renderField}
+                                    />
+                                    <button className="btn btn-info btn-block my-4" type="submit">Login</button>
+                                    
+                                    <div className="errors">{this.props.authError ? this.props.authError.message : ''}</div>
+                                </form>
+                            </div>
+                            </div>
+                        </div>
                         </div>
                     </div>
                 </div>

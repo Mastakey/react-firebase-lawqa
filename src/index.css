@@ -109,3 +109,8 @@ form.addquestion {
 .action-links {
   margin-left: 10px;
 }
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+}
