@@ -1,12 +1,13 @@
 const initialState = {
     questions: [],
-    addStatus: false
+    addStatus: false,
+    redirect: false
 };
 export default function(state = initialState, action){
     switch (action.type){
         case 'GET_QUESTIONS':
             console.log(action);
-            return state;
+            return initialState;
         case 'GET_QUESTIONS_SUCCESS':
             console.log("action", action);
             console.log("data", action.payload);
@@ -17,7 +18,8 @@ export default function(state = initialState, action){
             });
             return {
                 ...state,
-                questions: questions
+                questions: questions,
+                redirect: true
             };
         case 'ADD_QUESTION':
             console.log(action);
@@ -26,7 +28,8 @@ export default function(state = initialState, action){
             console.log(action);
             return {
                 ...state,
-                addStatus: true
+                addStatus: true,
+                redirect: true
             };
         default:
             return state;

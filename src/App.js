@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
-import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import createSagaMiddleWare from 'redux-saga';
-
-import sagas from "./store/sagas";
-import reducers from './store/reducers';
+import { connect } from 'react-redux';
 
 import Header from './components/header/header';
+import Footer from './components/footer/footer';
 import Home from './components/content/home';
 import RegisterForm from './components/auth/register_form';
 import LoginForm from './components/auth/login_form';
@@ -19,34 +14,37 @@ import QuestionAddForm from './components/content/questions/question_add_form';
 import ReduxForm from './components/examples/redux_form';
 import ReduxFormAbs from './components/examples/redux_form_abstract_render';
 
-const sagaMiddleware = createSagaMiddleWare();
-const createStoreWithMiddleware = composeWithDevTools(applyMiddleware(sagaMiddleware))(createStore);
-const store = createStoreWithMiddleware(reducers);
-sagaMiddleware.run(sagas);
-
 class App extends Component {
   render() {
+    console.log(this.props);
     return (
-      <Provider store={store}>
       <BrowserRouter>
         <div className="app-container">
           <Header />
           <div className="content-container">
-          <Switch>
-                <Route exact path='/' component={Home} />
-                <Route exact path='/reduxform' component={ReduxForm} />
-                <Route exact path='/reduxformabs' component={ReduxFormAbs} />
-                <Route exact path='/register' component={RegisterForm} />
-                <Route exact path='/login' component={LoginForm} />
-                <Route exact path='/questions' component={Questions} />
-                <Route path='/questions/add' component={QuestionAddForm} />
-          </Switch>
+              <div className="main-container">
+                <Switch>
+                      <Route exact path='/' component={Home} />
+                      <Route exact path='/reduxform' component={ReduxForm} />
+                      <Route exact path='/reduxformabs' component={ReduxFormAbs} />
+                      <Route exact path='/register' component={RegisterForm} />
+                      <Route exact path='/login' component={LoginForm} />
+                      <Route exact path='/questions' component={Questions} />
+                      <Route path='/questions/add' component={QuestionAddForm} />
+                </Switch>
+              </div>
           </div>
+          <Footer />
         </div>
       </BrowserRouter>
-      </Provider>
     );
   }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    showJumbo: state.showJumbo
+  };
+}
+
+export default connect(mapStateToProps, {})(App);

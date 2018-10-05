@@ -12,17 +12,18 @@ export function registerAPI(email, password){
 export function getQuestionsAPI() {
     console.log("saga get questions");
     try {
-        return firestore.collection("test_questions").get();
+        return firestore.collection("test_questions").orderBy("created", "desc").get();
     } catch (e) {
         console.log(e);
     }
 }
 
-export function addQuestionAPI(title, content) {
+export function addQuestionAPI(title, details) {
     try {
         firestore.collection("test_questions").add({
             title: title,
-            content: content
+            details: details,
+            created: new Date()
         })
         .then(function (docRef) {
             console.log("Document written with ID: ", docRef.id);

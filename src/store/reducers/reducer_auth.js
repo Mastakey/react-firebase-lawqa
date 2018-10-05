@@ -1,6 +1,9 @@
 const initState = {
     isAuthenticated: false,
-    error: {},
+    error: {
+        login: {},
+        register: {}
+    },
     redirect: false
 };
 
@@ -15,10 +18,10 @@ const AuthReducer = (state = initState, action) => {
         case 'REGISTER_FAIL':
             console.log('REGISTER_FAIL');
             console.log(action);
-            return { ...state, isAuthenticated: false, error: action.error, redirect: false};
+            return { ...state, isAuthenticated: false, error: {...state.error, register: action.error}, redirect: false};
         case "LOGIN_FAIL":
             console.log(action);
-            return { ...state, isAuthenticated: false, error: action.error, redirect: false}
+            return { ...state, isAuthenticated: false, error: {...state.error, login: action.error}, redirect: false};
         default:
             return state;
     }

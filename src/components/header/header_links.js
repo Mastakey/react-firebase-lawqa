@@ -43,6 +43,9 @@ class HeaderLinks extends Component {
 const LoginLinks = () => {
     return (
         <Nav className="ml-auto" navbar>
+            <NavItem>
+                <NavLink to="/questions"><button type="button" className="btn btn-deep-orange btn-rounded btn-sm">Questions</button></NavLink>
+            </NavItem>
                 <NavItem>
                     <NavLink className="nav-link active" to="/login">Login</NavLink>
                 </NavItem>
@@ -56,6 +59,9 @@ const LoginLinks = () => {
 const UserLinks = () => {
     return (
         <Nav className="ml-auto" navbar>
+            <NavItem>
+                <NavLink to="/questions"><button type="button" className="btn btn-deep-orange btn-rounded btn-sm">Questions</button></NavLink>
+            </NavItem>
         <UncontrolledDropdown nav inNavbar className="active">
             <DropdownToggle nav caret>
                 Profile

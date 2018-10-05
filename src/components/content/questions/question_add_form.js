@@ -1,86 +1,36 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import { Button, Form, FormGroup, Label, Input, Col, Row } from 'reactstrap';
+import { RenderInput, RenderTextarea, RenderSelect } from '../../util/forms/redux-form-render';
+
 
 class QuestionAddForm extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            error: {}
-        }
-    }
-    handleErrors(error) {
-        console.log("handle error", error);
-        //this.setState({
-        //    errors: [...this.state.errors, error]
-        //});
-        this.setState({
-            error: error
-        })
-    }
-    renderField(field) {
-        const className = "form-input";
-        let jsxFieldInput = (
-            <Input type={field.type} id={field.name}
-                {...field.input}
-            />
-        );
-        return (
-            <FormGroup className={className}>
-                <Label htmlFor={field.name}>{field.label}</Label>
-                {jsxFieldInput}
-                {field.meta.error && field.meta.touched &&
-                    <span className="form-error-text">
-                        {field.meta.error}
-                    </span>
-                }
-            </FormGroup>
-        );
-    }
-
     componentDidUpdate() {
         console.log("comp update", this.props);
-        if (this.props.addStatus) {
+        if (this.props.addStatus && this.props.redirect) {
             this.props.history.push('/questions');
         }
     }
 
     onSubmit(values) {
         console.log(values);
-        this.props.addQuestion(values.title, values.content);
+        this.props.addQuestion(values.title, values.details);
     }
+
     render() {
         const handleSubmit = this.props.handleSubmit;
         return (
-            <div className="main-container">
             <div className="main-content-container">
                 <div className="main-content">
                     <div className="form-container">
-                        <Form onSubmit={handleSubmit(this.onSubmit.bind(this))} className="addquestion">
-                            <h5 className="grey-text text-darken-3">Add Question</h5>
-                            <Row><Col md={12}>
-                            <Field
-                                name="title"
-                                type="text"
-                                label="Title"
-                                component={this.renderField}
-                            />
-                            </Col></Row>
-                            <Row><Col md={12}>
-                            <Field
-                                name="content"
-                                type="textarea"
-                                label="Details"
-                                component={this.renderField}
-                            />
-                            </Col></Row>
-                            <Button className="btn pink lighten-1 z-depth-0">Post</Button>
-                            <div className="errors">{this.state.error ? this.state.error.message : ''}</div>
-                        </Form>
+                        <form onSubmit={handleSubmit(this.onSubmit.bind(this))} className="border border-light p-5 form-add-question">
+                            <p className="h5 mb-4 text-center">Ask a Lawyer</p>
+                            <Field name="title" type="text" label="Title" component={RenderInput} />
+                            <Field name="details" type="textarea" label="Details" component={RenderTextarea}/>
+                            <button type="submit" className="btn btn-info btn-block my-4">Submit</button>
+                        </form>
                     </div>
                 </div>
-            </div>
             </div>
         );
     }
@@ -90,10 +40,10 @@ function validate(values) {
     let errors = {};
     // Validate the inputs from 'values'
     if (!values.title) {
-        errors.title = "Enter a title!";
+        errors.title = "Title is required";
     }
-    if (!values.content) {
-        errors.content = "Enter content!";
+    if (!values.details) {
+        errors.details = "Details is required";
     }
     return errors;
 }
@@ -101,16 +51,17 @@ function validate(values) {
 const mapStateToProps = (state) => {
     return {
         firebase: state.firebase,
-        addStatus: state.questions.addStatus
+        addStatus: state.questions.addStatus,
+        redirect: state.questions.redirect
     };
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        addQuestion: (title, content) => dispatch({ 
+        addQuestion: (title, details) => dispatch({ 
             type: "ADD_QUESTION", 
             title: title, 
-            content: content 
+            details: details 
         })
     };
 };

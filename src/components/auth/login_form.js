@@ -3,6 +3,12 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 
 class LoginForm extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            authError: {}
+        }
+    }
     renderField(field) {
         //const { touched, error } = field.meta;
         return (
@@ -20,10 +26,15 @@ class LoginForm extends Component {
         );
     }
 
+    componentDidMount(){
+
+    }
+
     onSubmit(values) {
         console.log(this.props);
         console.log("submit values", values);
-        this.props.login(values.email, values.password);
+        let loginReturn = this.props.login(values.email, values.password);
+        console.log("login Return", loginReturn);
     }
 
     componentDidUpdate(){
@@ -37,37 +48,35 @@ class LoginForm extends Component {
         console.log("prop", this.props);
 
         return (
-            <div className="main-container">
-                <div className="main-content-container">
-                    <div className="main-content">
-                        <div className="form-container">
-                        <div className="container">
-                            <div className="row flex-center">
-                            <div className="cols-md-6">
-                                <form onSubmit={handleSubmit(this.onSubmit.bind(this))}  className="border border-light p-5">
-                                    <p className="h5 mb-4 text-center">Login</p>
-                                    <Field
-                                        name="email"
-                                        type="email"
-                                        label="Email"
-                                        icon="envelope"
-                                        component={this.renderField}
-                                    />
-                                    <Field
-                                        name="password"
-                                        type="password"
-                                        label="Password"
-                                        icon="lock"
-                                        component={this.renderField}
-                                    />
-                                    <button className="btn btn-info btn-block my-4" type="submit">Login</button>
-                                    
-                                    <div className="errors">{this.props.authError ? this.props.authError.message : ''}</div>
-                                </form>
-                            </div>
-                            </div>
+            <div className="main-content-container">
+                <div className="main-content">
+                    <div className="form-container">
+                    <div className="container">
+                        <div className="row flex-center">
+                        <div className="cols-md-6">
+                            <form onSubmit={handleSubmit(this.onSubmit.bind(this))}  className="border border-light p-5 form-login">
+                                <p className="h5 mb-4 text-center">Login</p>
+                                <Field
+                                    name="email"
+                                    type="email"
+                                    label="Email"
+                                    icon="envelope"
+                                    component={this.renderField}
+                                />
+                                <Field
+                                    name="password"
+                                    type="password"
+                                    label="Password"
+                                    icon="lock"
+                                    component={this.renderField}
+                                />
+                                <button className="btn btn-info btn-block my-4" type="submit">Login</button>
+                                
+                                <div className="errors">{this.props.authError ? this.props.authError.message : ''}</div>
+                            </form>
                         </div>
                         </div>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -88,7 +97,7 @@ function validate(values) {
 
 const mapStateToProps = (state) => {
     return {
-        authError: state.auth.error,
+        authError: state.auth.error.login,
         isAuthenticated: state.auth.isAuthenticated,
         redirect: state.auth.redirect
     };

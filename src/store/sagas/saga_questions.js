@@ -15,7 +15,7 @@ function* getQuestionsSaga(){
 function* addQuestion(action){
     try {
         console.log('add', action);
-        yield call(addQuestionAPI, action.title, action.content);
+        yield call(addQuestionAPI, action.title, action.details);
         console.log('done');
         yield put({ type: 'ADD_QUESTION_SUCCESS'});
     } catch (e) {
