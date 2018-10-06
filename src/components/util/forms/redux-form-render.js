@@ -1,13 +1,11 @@
 import React from 'react';
 
-
-
 export const createRenderer = (render) => ({ input, meta, label, ...rest }) => {
     return (
         <div className="md-form">
             {render(input, label, rest)}
             {rest && rest.type !== 'textarea' ? 
-                <label htmlFor={input.name} id={input.name}>{label}</label>
+                <label htmlFor={input.name} >{label}</label>
                 : null
             }
             {meta.error && meta.touched &&
@@ -21,14 +19,14 @@ export const createRenderer = (render) => ({ input, meta, label, ...rest }) => {
 
 export const RenderInput = createRenderer((input, label, rest) => {
     return (
-        <input className="form-control mb-3" {...input} type={rest.type} />
+        <input className="form-control mb-3" {...input} id={input.name} type={rest.type} />
     );
 });
 
 export const RenderTextarea = createRenderer((input, label, rest) => {
     return (
         <div className="form-group shadow-textarea">
-            <textarea className="form-control z-depth-1" {...input} rows="3"
+            <textarea className="form-control" {...input} rows="3"
             placeholder={label}></textarea>
         </div>
     );

@@ -5,7 +5,7 @@ class Footer extends Component {
     render() {
         console.log('footer', this.props);
         return (
-            <div className="footer-container">
+            <div className="footer-content">
             </div>
         );
     }

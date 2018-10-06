@@ -20,7 +20,9 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className="app-container">
-          <Header />
+          <div className="header-container">
+            <Header />
+          </div>
           <div className="content-container">
               <div className="main-container">
                 <Switch>
@@ -34,7 +36,9 @@ class App extends Component {
                 </Switch>
               </div>
           </div>
-          <Footer />
+          <div className="footer-container">
+            <Footer />
+          </div>
         </div>
       </BrowserRouter>
     );

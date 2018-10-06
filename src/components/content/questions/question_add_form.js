@@ -25,8 +25,8 @@ class QuestionAddForm extends Component {
                     <div className="form-container">
                         <form onSubmit={handleSubmit(this.onSubmit.bind(this))} className="border border-light p-5 form-add-question">
                             <p className="h5 mb-4 text-center">Ask a Lawyer</p>
-                            <Field name="title" type="text" label="Title" component={RenderInput} />
-                            <Field name="details" type="textarea" label="Details" component={RenderTextarea}/>
+                            <Field name="title" type="text" label="Ask your question, start with What, How, Why" component={RenderInput} />
+                            <Field name="details" type="textarea" label="Add more details or give some background" component={RenderTextarea}/>
                             <button type="submit" className="btn btn-info btn-block my-4">Submit</button>
                         </form>
                     </div>
@@ -40,10 +40,7 @@ function validate(values) {
     let errors = {};
     // Validate the inputs from 'values'
     if (!values.title) {
-        errors.title = "Title is required";
-    }
-    if (!values.details) {
-        errors.details = "Details is required";
+        errors.title = "Question is required";
     }
     return errors;
 }
