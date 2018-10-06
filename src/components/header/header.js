@@ -25,7 +25,7 @@ class Header extends Component {
         console.log('header', this.props);
         return (
             <div className="header-content">
-                <Navbar className="header-nav" color="dark" dark expand="md">
+                <Navbar className="header-nav" color="gray-dark" dark expand="md">
                     <NavLink className="navbar-brand" to="/">lawqa</NavLink>
                     <HeaderLinks isAuthenticated={this.props.isAuthenticated}/>
                 </Navbar>
