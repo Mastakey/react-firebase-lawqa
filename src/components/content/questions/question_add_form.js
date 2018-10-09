@@ -14,7 +14,7 @@ class QuestionAddForm extends Component {
 
     onSubmit(values) {
         console.log(values);
-        this.props.addQuestion(values.title, values.details);
+        this.props.addQuestion(values);
     }
 
     render() {
@@ -27,6 +27,9 @@ class QuestionAddForm extends Component {
                             <p className="h5 mb-4 text-center">Ask a Lawyer</p>
                             <Field name="title" type="text" label="Ask your question, start with What, How, Why" component={RenderInput} />
                             <Field name="details" type="textarea" label="Add more details or give some background" component={RenderTextarea}/>
+                            <Field name="province" type="text" label="Province" component={RenderInput}/>
+                            <Field name="city" type="text" label="City" component={RenderInput}/>
+                            <Field name="category" type="text" label="Category" component={RenderInput}/>
                             <button type="submit" className="btn btn-info btn-block my-4">Submit</button>
                         </form>
                     </div>
@@ -55,10 +58,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        addQuestion: (title, details) => dispatch({ 
+        addQuestion: (formValues) => dispatch({ 
             type: "ADD_QUESTION", 
-            title: title, 
-            details: details 
+            values: formValues
+
         })
     };
 };

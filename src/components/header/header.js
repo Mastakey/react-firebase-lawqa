@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import HeaderLinks from './header_links';
-
-import {
-    Navbar
-} from 'reactstrap';
+import HeaderNav from './header_nav';
 
 class Header extends Component {
     constructor(props) {
@@ -25,10 +20,7 @@ class Header extends Component {
         console.log('header', this.props);
         return (
             <div className="header-content">
-                <Navbar className="header-nav" color="gray-dark" dark expand="md">
-                    <NavLink className="navbar-brand" to="/">lawqa</NavLink>
-                    <HeaderLinks isAuthenticated={this.props.isAuthenticated}/>
-                </Navbar>
+                <HeaderNav isAuthenticated={this.props.isAuthenticated}/>
             </div>
         );
     }

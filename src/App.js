@@ -9,6 +9,7 @@ import RegisterForm from './components/auth/register_form';
 import LoginForm from './components/auth/login_form';
 import Questions from './components/content/questions/questions';
 import QuestionAddForm from './components/content/questions/question_add_form';
+import QuestionDetail from './components/content/questions/question_details';
 
 //Example Forms
 import ReduxForm from './components/examples/redux_form';
@@ -20,7 +21,7 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className="app-container">
-          <div className="header-container">
+          <div className="header-container navbar">
             <Header />
           </div>
           <div className="content-container">
@@ -32,6 +33,7 @@ class App extends Component {
                       <Route exact path='/register' component={RegisterForm} />
                       <Route exact path='/login' component={LoginForm} />
                       <Route exact path='/questions' component={Questions} />
+                      <Route exact path='/questions/:id' component={QuestionDetail} />
                       <Route path='/questions/add' component={QuestionAddForm} />
                 </Switch>
               </div>

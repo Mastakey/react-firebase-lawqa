@@ -1,15 +1,18 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {
     Card, CardText, CardBody,
     CardTitle, CardSubtitle
-} from 'reactstrap';
+} from 'mdbreact';
 
 const QuestionSummary = ({question}) => {
+    console.log(question);
+    const questionLink = `/questions/${question.id}`;
     return (
         <Card className="question-card">
             <CardBody>
-                <CardTitle>{question.title}</CardTitle>
-                <CardSubtitle>{question.author}</CardSubtitle>
+                <Link to={questionLink} ><CardTitle>{question.title}</CardTitle></Link>
+                <CardText>{question.city}</CardText>
             </CardBody>
         </Card>
     )

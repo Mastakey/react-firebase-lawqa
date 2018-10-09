@@ -18,11 +18,14 @@ export function getQuestionsAPI() {
     }
 }
 
-export function addQuestionAPI(title, details) {
+export function addQuestionAPI(values) {
     try {
         firestore.collection("test_questions").add({
-            title: title,
-            details: details,
+            title: values.title,
+            details: values.details ? values.details : '',
+            province: values.province ? values.province : '',
+            city: values.city ? values.city : '',
+            category: values.category ? values.category : '',
             created: new Date()
         })
         .then(function (docRef) {
