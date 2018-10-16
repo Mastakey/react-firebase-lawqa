@@ -11,6 +11,8 @@ import Questions from './components/content/questions/questions';
 import QuestionAddForm from './components/content/questions/question_add_form';
 import QuestionDetail from './components/content/questions/question_details';
 
+import Categories from './components/content/categories/categories';
+
 //Example Forms
 import ReduxForm from './components/examples/redux_form';
 import ReduxFormAbs from './components/examples/redux_form_abstract_render';
@@ -35,6 +37,7 @@ class App extends Component {
                       <Route exact path='/questions' component={Questions} />
                       <Route exact path='/questions/:id' component={QuestionDetail} />
                       <Route path='/questions/add' component={QuestionAddForm} />
+                      <Route exact path='/categories' component={Categories} />
                 </Switch>
               </div>
           </div>
